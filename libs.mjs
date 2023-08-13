@@ -29,4 +29,18 @@ export const pastebin = {
     fetch(pastebin_url + `/${filename}`, { method: "DELETE" }).then(
       (response) => response.text()
     ),
+  upload_encrypt: async (filename) =>
+    fetch(pastebin_url + "/encrypt", {
+      method: "POST",
+      body: new URLSearchParams({ upload: await read_file(filename) }),
+      redirect: "manual",
+    }).then((response) => response.headers.get("location")),
+  list: async () =>
+    fetch(pastebin_url + "/list").then((response) => response.text()),
+  upload_string: async (str) =>
+    fetch(pastebin_url, {
+      method: "POST",
+      body: new URLSearchParams({ upload: str }),
+      redirect: "manual",
+    }).then((response) => response.headers.get("location")),
 };
